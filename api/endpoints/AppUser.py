@@ -8,16 +8,20 @@ from flask_restplus import Namespace, Resource, fields
 myclient = pymongo.MongoClient(os.getenv("DB_CONN"))
 db = myclient[os.getenv("DB_NAME")]
 app_users_col = db["app_users"]
+app_users_col.create_index("username", unique=True)
+
 api = Namespace('app_users', description='app users related operations')
 
 app_user = api.model('APP_USER', {
     "username": fields.String(description='App Username'),
-    "password": fields.String(description='hashed password')
+    "password": fields.String(description='hashed password'),
+    "email": fields.String(description='App user email')
 })
 
 
 @api.route('/')
 @api.response(404, 'User not inserted')
+@api.response(409, 'Duplicated key')
 @api.response(500, 'Server Error')
 class Users(Resource):
     @api.doc('post_app_users')
@@ -28,11 +32,12 @@ class Users(Resource):
             hash = SHA256.new()
             hash.update(request["password"].encode())
             request["password"] = hash.hexdigest()
-            print(request)
             result_id = app_users_col.insert_one(api.payload).inserted_id
             if result_id:
                 return {'msg': 'Inserted'}, 201
             raise ValueError('app_users not found')
+        except pymongo.errors.DuplicateKeyError:
+            api.abort(409)
         except ValueError as ve:
             print('app_users exception', ve)
             api.abort(404)
@@ -41,15 +46,15 @@ class Users(Resource):
             api.abort(500)
 
 
-@api.route('/<id>')
-@api.param('id', 'The user identifier')
+@api.route('/<username>')
+@api.param('username', 'The user identifier')
 @api.response(404, 'User not found')
 @api.response(500, 'Server Error')
 class User(Resource):
     @api.doc('get_app_users')
-    def get(self, id):
+    def get(self, username):
         try:
-            result = app_users_col.find_one({'_id': ObjectId(id)})
+            result = app_users_col.find_one({'username': username}, {'_id': 0})
             if result:
                 return result
             raise ValueError('app_users not found')
@@ -62,11 +67,15 @@ class User(Resource):
 
     @api.doc('put_app_users')
     @api.expect(app_user)
-    def put(self, id):
+    def put(self, username):
         try:
             doc = api.payload
+            if doc["password"]:
+                hash = SHA256.new()
+                hash.update(doc["password"].encode())
+                doc["password"] = hash.hexdigest()
             result = app_users_col.find_one_and_update(
-                {'_id': ObjectId(id)},
+                {'username': username},
                 {'$set': doc},
                 return_document=ReturnDocument.AFTER)
             if result:
@@ -80,9 +89,10 @@ class User(Resource):
             api.abort(500)
 
     @api.doc('delete_app_users')
-    def delete(self, id):
+    def delete(self, username):
         try:
-            result = app_users_col.find_one_and_delete({'_id': ObjectId(id)})
+            result = app_users_col.find_one_and_delete(
+                {'username': username})
             if result:
                 return {'msg': 'Deleted'}, 200
             raise ValueError('app_users not found')
