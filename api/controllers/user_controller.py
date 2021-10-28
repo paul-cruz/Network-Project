@@ -1,14 +1,38 @@
 import napalm
 
-from device_controller import DeviceController
+from main_controller import DeviceController
 
 class UserController(DeviceController):
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):
-    device = self.prepareDevice(ip, user, password)
-    device.load_merge_candidate(config='username %s priv 15 pass %s\n'%(newUser, newPassword))
-    device.commit_config()
-    device.close()
-    return '{"response": "User %s has been inserted"}'%newUser
+    try:
+      device = self.prepareDevice(ip, user, password)
+      device.load_merge_candidate(config='username %s priv 15 pass %s\n'%(newUser, newPassword))
+      device.commit_config()
+      device.close()
+      return True, {"response": "User %s has been inserted"%newUser}
+    except Exception as e:
+      return False, {"response": "Error: %s"%e}
+
+  def updateUser(self, ip: str, user: str, password: str, newPassword: str):
+    try:
+      device = self.prepareDevice(ip, user, password)
+      device.load_merge_candidate(config = "username %s privilege 15 password 0 %s"%(user, newPassword))
+      device.commit_config()
+      device.close()
+      return True, {"response": "Password of user %s has been updated"%user}
+
+    except Exception as e:
+      return False, {"response": "Error: %s"%e}
+
+  def deleteUser(self, ip: str, user: str, password: str):
+    try:
+      device = self.prepareDevice(ip, user, password)
+      device.load_merge_candidate(config = "no username %s privilege 15 password %s"%(user, password))
+      device.commit_config()
+      device.close()
+      return True, {"response": "User '%s' has been deleted"%user}
+    except Exception as e:
+      return False, {"response": "Error: %s"%e}
 
 #Usage:
 #userController = UserController()

@@ -1,6 +1,6 @@
 import napalm
 
-from device_controller import DeviceController
+from main_controller import DeviceController
 
 class RSAController(DeviceController):
   def addRSASupport(self, ip: str, user: str, password: str):
