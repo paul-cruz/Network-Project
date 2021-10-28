@@ -1,7 +1,6 @@
 import os
 import pymongo
 from Crypto.Hash import SHA256
-from bson.objectid import ObjectId
 from pymongo.collection import ReturnDocument
 from flask_restplus import Namespace, Resource, fields
 
@@ -118,7 +117,6 @@ class UserLogin(Resource):
             result = app_users_col.find_one(
                 {'username': request["username"]})
             if result:
-                print(result)
                 return result["password"] == hash.hexdigest()
             raise ValueError('app_users not found')
         except ValueError as ve:
