@@ -51,15 +51,12 @@ class UserCreation(Resource):
     def put(self):
         try:
             req = api.payload
-            """
             success, resp = user_controller.updateUser(
-                req['ip'], req['admin'], req['adminPass'], req['username'], req['password'])
+                req['ip'], req['username'], req['password'], req['newPassword'])
             if success:
                 return {'msg': 'Updated'}, 201
             else:
                 return resp, 409
-            """
-            return 'TODO', 201
         except ValueError as ve:
             api.abort(404)
         except Exception as e:
@@ -72,15 +69,12 @@ class UserCreation(Resource):
             req = api.payload
             result = app_users_col.find_one_and_delete(
                 {'username': req['username']})
-            """
             success, resp = user_controller.deleteUser(
-                req['ip'], req['admin'], req['adminPass'], req['username'], req['password'])
-            """
-            if result:  # and success:
+                req['ip'], req['username'], req['password'])
+            if result and success:
                 return {'msg': 'Deleted'}, 201
-            # else:
-            #    return resp, 409
-            return 'TODO', 201
+            else:
+                return resp, 409
         except ValueError as ve:
             api.abort(404)
         except Exception as e:
