@@ -1,0 +1,28 @@
+.container {
+  width: 30rem;
+  color: #47525e;
+  background-color: #ffffff;
+  position: relative;
+  padding: 2rem;
+}
+
+.title {
+  text-align: center;
+  color: #0469ec;
+}
+
+.subtitle {
+  text-align: center;
+  color: #47525e;
+  font-weight: lighter;
+}
+
+.button {
+  background-color: #0469ec;
+  border-radius: 2rem;
+  color: #ffffff;
+  margin: 1rem;
+  padding: 0.7rem;
+  width: 12rem;
+  border: none;
+}
