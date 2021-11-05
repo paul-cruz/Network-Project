@@ -16,6 +16,7 @@ function FormContainer(props) {
           {props.button_text}
         </button>
       </Row>
+      {props.footer}
     </Container>
   );
 }

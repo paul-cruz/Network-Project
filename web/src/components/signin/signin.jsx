@@ -5,6 +5,7 @@ import classes from "./signin.module.css";
 
 import FormContainer from "../global_components/form_container/form_container";
 import SignInForm from "./components/signin_form";
+import Footer from "./components/footer";
 
 function SignIn() {
   const emailRef = useRef();
@@ -26,6 +27,7 @@ function SignIn() {
         title="Inicia sesión"
         button_text="Accede al sistema"
         subtitle="Para acceder al sistema debes ingresar con tu cuenta"
+        footer={<Footer />}
         form={<SignInForm email_ref={emailRef} password_ref={passwordRef} />}
         on_submit={signInHandler}
       />

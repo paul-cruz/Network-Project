@@ -1,5 +1,44 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
+import FormContainer from "../global_components/form_container/form_container";
+import classes from "./signup.module.css";
+import SignUpForm from "./components/signup_form";
+import Footer from "./components/footer";
+
 function SignUp() {
-  return <div>signup</div>;
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const navigate = useNavigate();
+
+  const signUpHandler = () => {
+    //TODO: CAll the API
+    console.log(nameRef.current.value);
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
+    //TODO: Check if call was succesfull
+    navigate("/signin");
+  };
+
+  return (
+    <div className={classes.background}>
+      <FormContainer
+        title="Registrate para entrar"
+        subtitle="Requieres de una cuenta para poder ingresar"
+        button_text="¡Registrate!"
+        form={
+          <SignUpForm
+            name_ref={nameRef}
+            email_ref={emailRef}
+            password_ref={passwordRef}
+          />
+        }
+        footer={<Footer />}
+        on_submit={signUpHandler}
+      />
+    </div>
+  );
 }
 
 export default SignUp;
