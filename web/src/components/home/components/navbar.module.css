@@ -1,0 +1,11 @@
+.button__devices {
+  background-color: #0469ec;
+  color: white;
+  border-radius: 3rem;
+}
+
+.button__signout {
+  background-color: #db4437;
+  color: white;
+  border-radius: 3rem;
+}

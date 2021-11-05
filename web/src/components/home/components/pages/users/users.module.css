@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  margin-top: 1rem;
+  flex-flow: row wrap;
+}
+
+.button__update {
+  border-radius: 2rem;
+  background-color: white;
+  color: #0469ec;
+  width: auto;
+  margin: 1rem;
+  border: none;
+  font-size: 0.8rem;
+}
+
+.card {
+  background-color: #0469ec;
+  height: 6rem;
+  width: 18rem;
+  color: white;
+  padding: 0.5rem;
+  margin: 1rem;
+}

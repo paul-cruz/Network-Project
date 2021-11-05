@@ -18,7 +18,7 @@ function SignIn() {
     console.log(passwordRef.current.value);
 
     //TODO: check if response was succesful
-    navigate("/signup");
+    navigate("/home");
   };
 
   return (
