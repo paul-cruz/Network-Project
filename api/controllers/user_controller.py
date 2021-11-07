@@ -1,6 +1,6 @@
 import napalm
 
-from main_controller import DeviceController
+from controllers.main_controller import DeviceController
 
 class UserController(DeviceController):
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):

@@ -1,5 +1,5 @@
 import napalm
-from main_controller import DeviceController
+from controllers.main_controller import DeviceController
 import time
 
 class ProtocolsController(DeviceController):

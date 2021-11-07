@@ -7,7 +7,7 @@ services:
     image: project-api
     container_name: project-api-server
     volumes:
-      - ./api/:/usr/src/app/
+      - ./api/:/usr/src/api/
     ports:
       - 5000:5000
     depends_on:
@@ -28,6 +28,28 @@ services:
       - "27017:27017"
     networks:
       - project-network
+      
+  web-service:
+        build:
+            context: ./web/
+            dockerfile: Dockerfile
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        image: project-client
+        container_name: project-web-client
+        stdin_open: true
+        command: npm start
+        volumes:
+        - ./web/:/usr/app
+        - /usr/app/node_modules
+        depends_on:
+        - api-service
+        ports:
+        - "3000:3000"
+        networks:
+        - project-network
+        environment: 
+            REACT_APP_API: http://localhost:5000/api/
 
 networks:
   project-network:
