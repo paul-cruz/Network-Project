@@ -3,11 +3,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 
+import { actRSA } from "../../../../utils/functions";
+
 function DeviceItem(props) {
   const [isEnabledRSA, setIsEnabledRSA] = useState(false);
 
   const addRSA = () => {
+    const configureRSA = {
+      ip: props.ip,
+      admin: "cisco",
+      adminPass: "cisco",
+    };
+
     setIsEnabledRSA(true);
+    actRSA(configureRSA).then(() => {
+      setIsEnabledRSA(false);
+    });
   };
 
   return (
