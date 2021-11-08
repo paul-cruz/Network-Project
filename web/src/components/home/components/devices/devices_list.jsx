@@ -4,31 +4,10 @@ function DevicesList() {
   return (
     <ul>
       <li>
-        <DeviceItem name="Dispositivo 1" locked={false} />
+        <DeviceItem id={0} name="Dispositivo 1" ip={"192.168.10.254"} />
       </li>
       <li>
-        <DeviceItem name="Dispositivo 2" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
-      </li>
-      <li>
-        <DeviceItem name="Dispositivo 3" locked={true} />
+        <DeviceItem id={1} name="Dispositivo 2" ip={"192.168.20.254"} />
       </li>
     </ul>
   );

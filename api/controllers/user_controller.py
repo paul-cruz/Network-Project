@@ -3,10 +3,12 @@ import napalm
 from controllers.main_controller import DeviceController
 
 class UserController(DeviceController):
+  def __init__(self) -> None:
+    ips = ["192.168.10.254", "192.168.20.254"]
+
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
         device.load_merge_candidate(config='username %s priv 15 pass %s\n'%(newUser, newPassword))
         device.commit_config()
@@ -16,9 +18,8 @@ class UserController(DeviceController):
     return True, {"response": "User %s has been inserted"%newUser}
 
   def updateUser(self, ip: str, user: str, password: str, newPassword: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
         device.load_merge_candidate(config = "username %s privilege 15 password 0 %s"%(user, newPassword))
         device.commit_config()
@@ -28,9 +29,8 @@ class UserController(DeviceController):
     return True, {"response": "Password of user %s has been updated"%user}
 
   def deleteUser(self, ip: str, user: str, password: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
         device.load_merge_candidate(config = "no username %s privilege 15 password %s"%(user, password))
         device.commit_config()

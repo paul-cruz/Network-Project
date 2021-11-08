@@ -68,6 +68,7 @@ class DeviceUsers(Resource):
             api.abort(500)
 
     @api.doc('delete_app_users')
+    @api.expect(device_user)
     def delete(self):
         try:
             req = api.payload
