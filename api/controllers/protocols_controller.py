@@ -3,6 +3,9 @@ from controllers.main_controller import DeviceController
 import time
 
 class ProtocolsController(DeviceController):
+  def __init__(self) -> None:
+    ips = ["192.168.10.254", "192.168.20.254"]
+
   def getNetworkIds(self, ip: str, user: str, password: str):
     try:
       networks = []
@@ -31,9 +34,8 @@ class ProtocolsController(DeviceController):
     device.close()
 
   def activateRIP(self, ip: str, user: str, password: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
         router ospf 1
@@ -54,8 +56,8 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(40)
-      for deviceIp in ips:
+      time.sleep(60)
+      for deviceIp in self.ips:
         self.deactivateProtocols("RIP", deviceIp, user, password)
 
     except Exception as e:
@@ -63,9 +65,8 @@ class ProtocolsController(DeviceController):
     return True, {"response": "RIP protocol has been activated"}
 
   def activateOSPF(self, ip: str, user: str, password: str, wildcard: str, area: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
         router EIGRP 1
@@ -85,18 +86,17 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(10)
+      time.sleep(30)
 
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         self.deactivateProtocols("OSPF", deviceIp, user, password)
     except Exception as e:
       return False, {"response": "%s"%e}
     return True, {"response": "OSPF protocol has been activated"}
 
   def activateEIGRP(self, ip: str, user: str, password: str):
-    ips = ["192.168.10.254", "192.168.40.254", "192.168.20.254", "192.168.30.254"]
     try:
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
         router RIP 
@@ -116,9 +116,9 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(20)
+      time.sleep(30)
       
-      for deviceIp in ips:
+      for deviceIp in self.ips:
         self.deactivateProtocols("EIGRP", deviceIp, user, password)
     except Exception as e:
       return False, {"response": "%s"%e}
