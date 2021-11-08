@@ -3,8 +3,8 @@ import axios from 'axios';
 export const registerAppUser = (app_user) => {
     console.log(app_user);
     return axios.post(`${process.env.REACT_APP_API}app-user`, app_user, {
-        Headers: {'Content-Type':'application/json'}
-    }).then((res)=>{
+        Headers: { 'Content-Type': 'application/json' }
+    }).then((res) => {
         return res;
     }).catch(error => {
         return error.response;
@@ -25,7 +25,7 @@ export const getAppUser = (username) => {
 };
 
 export const updateAppUser = (app_user, username) => {
-    return axios.put(`${process.env.REACT_APP_API}app-user/${username}`,app_user, {
+    return axios.put(`${process.env.REACT_APP_API}app-user/${username}`, app_user, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -53,7 +53,7 @@ export const logAppUser = (app_user) => {
         headers: {
             "Content-Type": "application/json",
         }
-    }).then((res) =>{
+    }).then((res) => {
         return res;
     }).catch(error => {
         return error.response;
@@ -76,7 +76,7 @@ export const updateDeviceUser = (device_user) => {
     return axios.put(`${process.env.REACT_APP_API}device-user/`, device_user, {
         headers: {
             "Content-Type": "application/json",
-          }
+        }
     }).then((res) => {
         return res;
     }).catch(error => {
@@ -84,11 +84,11 @@ export const updateDeviceUser = (device_user) => {
     });
 };
 
-export const deleteDeviceUser = (device_user) => {
-    return axios.delete(`${process.env.REACT_APP_API}device-user`, device_user, {
+export const deleteDeviceUser = (data) => {
+    return axios.delete(`${process.env.REACT_APP_API}device-user/`, data, {
         headers: {
             "Content-Type": "application/json",
-          }
+        }
     }).then((res) => {
         return res;
     }).catch(error => {
@@ -130,7 +130,7 @@ export const configureEIGRP = (eigrp_protocol) => {
         return res;
     }).catch(error => {
         return error.response;
-    }); 
+    });
 };
 
 export const actRSA = (rsa_connection) => {
@@ -140,6 +140,20 @@ export const actRSA = (rsa_connection) => {
         }
     }).then((res) => {
         return res;
+    }).catch(error => {
+        return error.response;
+    });
+};
+
+
+export const getDeviceUsers = (username) => {
+    console.log(username);
+    return axios.get(`${process.env.REACT_APP_API}device-user/`, {
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then((res) => {
+        return res.data;
     }).catch(error => {
         return error.response;
     });

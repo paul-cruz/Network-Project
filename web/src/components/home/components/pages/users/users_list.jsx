@@ -1,14 +1,23 @@
+import React, { useState, useEffect } from "react";
 import classes from "./users.module.css";
 import UserItem from "./user_item";
+import { getDeviceUsers } from '../../../../../utils/functions';
 
 function UsersList() {
+  const [deviceUsers, setDeviceUsers] = useState([]);
+
+  useEffect(() => {
+    getDeviceUsers().then((users) => {
+      setDeviceUsers(users);
+    });
+  }, []);
+
   return (
     <div className={classes.container}>
-      <UserItem username="Usuario 1" id="u1" />
-      <UserItem username="Usuario 2" id="u2" />
-      <UserItem username="Usuario 3" id="u3" />
-      <UserItem username="Usuario 4" id="u4" />
-      <UserItem username="Usuario 5" id="u5" />
+      {deviceUsers &&
+        deviceUsers.map((usr, index) => {
+          return (<UserItem key={index} username={usr.username} id={index} />);
+        })}
     </div>
   );
 }

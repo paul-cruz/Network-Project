@@ -4,22 +4,20 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { updateDeviceUser } from "../../../../../utils/functions";
+import { deleteDeviceUser } from "../../../../../utils/functions";
 
-function UserModal(props) {
+function DeleteUserModal(props) {
   const ipRef = useRef();
-  const currentRef = useRef();
   const passwordRef = useRef();
 
-  const updatePassword = () => {
+  const deleteUser = () => {
     const req = {
       "ip": ipRef.current.value,
       "username": props.username,
-      "password": currentRef.current.value,
-      "newPassword": passwordRef.current.value,
+      "password": passwordRef.current.value,
     };
     console.log(req);
-    updateDeviceUser(req).then((res) => {
+    deleteDeviceUser(req).then((res) => {
       console.log(res);
     });
     props.on_hide();
@@ -39,24 +37,12 @@ function UserModal(props) {
           <Row className="d-flex justify-content-center">
             <Form.Group
               className="mb-3 col-md-8 "
-              controlId="formIp"
+              controlId="formBasicPassword"
             >
               <Form.Control
                 type="text"
                 placeholder="Introduce la ip del dispositivo"
                 ref={ipRef}
-              />
-            </Form.Group>
-          </Row>
-          <Row className="d-flex justify-content-center">
-            <Form.Group
-              className="mb-3 col-md-8 "
-              controlId="formBasicPassword"
-            >
-              <Form.Control
-                type="password"
-                placeholder="Introduce tu contraseña actual"
-                ref={currentRef}
               />
             </Form.Group>
           </Row>
@@ -78,12 +64,12 @@ function UserModal(props) {
         <Button variant="secondary" onClick={onCancel}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={updatePassword}>
-          Actualizar
+        <Button variant="danger" onClick={deleteUser}>
+          Eliminar
         </Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default UserModal;
+export default DeleteUserModal;
