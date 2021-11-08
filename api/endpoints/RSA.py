@@ -1,5 +1,5 @@
 import os
-from api.controllers.RSA_controller import RSAController
+from controllers.RSA_controller import RSAController
 from flask_restplus import Namespace, Resource, fields
 
 RSA_controller = RSAController()

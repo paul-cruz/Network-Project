@@ -1,5 +1,5 @@
 import os
-from api.controllers.user_controller import UserController
+from controllers.user_controller import UserController
 import pymongo
 from Crypto.Hash import SHA256
 from pymongo.collection import ReturnDocument
@@ -12,9 +12,9 @@ app_users_col.create_index("username", unique=True)
 
 user_controller = UserController()
 
-api = Namespace('device_user', description='app users related operations')
+api = Namespace('device_users', description='device users related operations')
 
-device_user = api.model('DEVICE_USER_CREATION', {
+device_user = api.model('DEVICE_USER', {
     "ip": fields.String(description='Device ip'),
     "admin": fields.String(description='admin username in device'),
     "adminPass": fields.String(description='admin password in device'),
@@ -22,7 +22,7 @@ device_user = api.model('DEVICE_USER_CREATION', {
     "password": fields.String(description='Password of the user in device'),
 })
 
-
+@api.route('/')
 @api.response(404, 'User not found')
 @api.response(409, 'Error from the device')
 @api.response(500, 'Server Error')

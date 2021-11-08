@@ -1,5 +1,5 @@
 import os
-from api.controllers.protocols_controller import ProtocolsController
+from controllers.protocols_controller import ProtocolsController
 from flask_restplus import Namespace, Resource, fields
 
 protocols_controller = ProtocolsController()
