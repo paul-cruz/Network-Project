@@ -4,22 +4,23 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { updateDeviceUser } from "../../../../../utils/functions";
+import { registerDeviceUser } from "../../../../../utils/functions";
 
 function UserModal(props) {
   const ipRef = useRef();
-  const currentRef = useRef();
+  const usernameRef = useRef();
   const passwordRef = useRef();
 
   const updatePassword = () => {
     const req = {
       "ip": ipRef.current.value,
-      "username": props.username,
-      "password": currentRef.current.value,
-      "newPassword": passwordRef.current.value,
+      "admin": "cisco",
+      "adminPass": "cisco",
+      "username": usernameRef.current.value,
+      "password": passwordRef.current.value,
     };
     console.log(req);
-    updateDeviceUser(req).then((res) => {
+    registerDeviceUser(req).then((res) => {
       console.log(res);
     });
     props.on_hide();
@@ -55,8 +56,8 @@ function UserModal(props) {
             >
               <Form.Control
                 type="password"
-                placeholder="Introduce tu contraseña actual"
-                ref={currentRef}
+                placeholder="Introduce tu username"
+                ref={usernameRef}
               />
             </Form.Group>
           </Row>
@@ -67,7 +68,7 @@ function UserModal(props) {
             >
               <Form.Control
                 type="password"
-                placeholder="Introduce tu nueva contraseña"
+                placeholder="Introduce tu contraseña"
                 ref={passwordRef}
               />
             </Form.Group>
@@ -79,7 +80,7 @@ function UserModal(props) {
           Cancelar
         </Button>
         <Button variant="primary" onClick={updatePassword}>
-          Actualizar
+          Añadir
         </Button>
       </Modal.Footer>
     </Modal>

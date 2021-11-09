@@ -1,11 +1,12 @@
 import { useState } from "react";
-import Row from "react-bootstrap/Row";
-
 import classes from "./users.module.css";
 import UserModal from "./user_modal";
+import DeleteUserModal from "./delete_user_modal";
+
 
 function UserItem(props) {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
 
   const showModal = (username) => {
@@ -13,23 +14,38 @@ function UserItem(props) {
     setShowUpdateModal(true);
   };
 
+  const showDeleteModalF = (username) => {
+    setSelectedUser(username);
+    setShowDeleteModal(true);
+  };
+
   return (
     <>
       <div className={classes.card}>
-        <h5>{props.username}</h5>
-        <Row className="d-flex justify-content-end">
-          <button
-            className={classes.button__update}
-            onClick={() => showModal(props.username)}
-          >
-            Actualizar contraseña
-          </button>
-        </Row>
+        <h5>{props.username} </h5>
+        <button
+          className={classes.button__delete}
+          onClick={() => showDeleteModalF(props.username)}
+        >
+          Eliminar
+        </button>
+        <button
+          className={classes.button__update}
+          onClick={() => showModal(props.username)}
+        >
+          Actualizar contraseña
+        </button>
       </div>
       <UserModal
         username={selectedUser}
         show={showUpdateModal}
         on_hide={setShowUpdateModal.bind(false)}
+      />
+
+      <DeleteUserModal
+        username={selectedUser}
+        show={showDeleteModal}
+        on_hide={setShowDeleteModal.bind(false)}
       />
     </>
   );

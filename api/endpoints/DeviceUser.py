@@ -26,7 +26,11 @@ device_user = api.model('DEVICE_USER', {
 @api.response(404, 'User not found')
 @api.response(409, 'Error from the device')
 @api.response(500, 'Server Error')
-class UserCreation(Resource):
+class DeviceUsers(Resource):
+    @api.doc('list_device_users')
+    def get(self):
+        return list(app_users_col.find())
+
     @api.doc('get_app_users')
     @api.expect(device_user)
     def post(self):

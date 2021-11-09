@@ -9,8 +9,17 @@
   background-color: white;
   color: #0469ec;
   width: auto;
-  margin: 1rem;
   border: none;
+  font-size: 0.8rem;
+}
+
+.button__delete {
+  border-radius: 2rem;
+  background-color: white;
+  color: #c00303;
+  width: auto;
+  border: none;
+  margin-right: 1em;
   font-size: 0.8rem;
 }
 
