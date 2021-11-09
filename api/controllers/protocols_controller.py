@@ -4,7 +4,7 @@ import time
 
 class ProtocolsController(DeviceController):
   def __init__(self) -> None:
-    ips = ["192.168.10.254", "192.168.20.254"]
+    self.ips = ["192.168.10.254", "192.168.20.254"]
 
   def getNetworkIds(self, ip: str, user: str, password: str):
     try:
@@ -56,7 +56,7 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(60)
+      time.sleep(100)
       for deviceIp in self.ips:
         self.deactivateProtocols("RIP", deviceIp, user, password)
 
@@ -86,7 +86,7 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(30)
+      time.sleep(100)
 
       for deviceIp in self.ips:
         self.deactivateProtocols("OSPF", deviceIp, user, password)
@@ -116,7 +116,7 @@ class ProtocolsController(DeviceController):
         device.commit_config()
         device.close()
 
-      time.sleep(30)
+      time.sleep(100)
       
       for deviceIp in self.ips:
         self.deactivateProtocols("EIGRP", deviceIp, user, password)
