@@ -33,6 +33,9 @@ function NavBar(props) {
             <div onClick={() => setPageIndex(1)}>
               <Nav.Link href="#usuarios">Usuarios</Nav.Link>
             </div>
+            <div onClick={() => setPageIndex(2)}>
+              <Nav.Link href="#logs">Logs</Nav.Link>
+            </div>
           </Nav>
           <div>
             <Button
