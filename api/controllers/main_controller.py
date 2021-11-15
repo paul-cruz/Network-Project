@@ -146,7 +146,6 @@ class DeviceController:
             next.append(ips[index])
             visited.append(name)
             allIps.append(ips[index])
-      print(allIps) 
       return allIps, visited
     except Exception as e:
       print(e)

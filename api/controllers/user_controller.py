@@ -4,7 +4,7 @@ from controllers.main_controller import DeviceController
 
 class UserController(DeviceController):
   def __init__(self) -> None:
-    self.ips = ["192.168.10.254", "192.168.20.254"]
+    self.ips, self.visited = self.getTopology('192.168.10.254', 'cisco', 'cisco')
 
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):
     try:
