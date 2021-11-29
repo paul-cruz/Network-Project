@@ -25,16 +25,19 @@ function NavBar(props) {
     <>
       <Navbar bg="primary" variant="dark">
         <Container>
-          <Navbar.Brand href="/home">Los yepas</Navbar.Brand>
+          <Navbar.Brand>Los yepas</Navbar.Brand>
           <Nav className="me-auto">
             <div onClick={() => setPageIndex(0)}>
-              <Nav.Link href="/home">Inicio</Nav.Link>
+              <Nav.Link href="#home">Inicio</Nav.Link>
             </div>
             <div onClick={() => setPageIndex(1)}>
               <Nav.Link href="#usuarios">Usuarios</Nav.Link>
             </div>
             <div onClick={() => setPageIndex(2)}>
               <Nav.Link href="#logs">Logs</Nav.Link>
+            </div>
+            <div onClick={() => setPageIndex(3)}>
+              <Nav.Link href="#graphs">Gráficas</Nav.Link>
             </div>
           </Nav>
           <div>
