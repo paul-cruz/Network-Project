@@ -61,7 +61,7 @@ export const logAppUser = (app_user) => {
 };
 
 export const registerDeviceUser = (device_user) => {
-    return axios.post(`${process.env.REACT_APP_API}device-user/`, device_user, {
+    return axios.post(`${process.env.REACT_APP_API}deviceUser/`, device_user, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -73,7 +73,7 @@ export const registerDeviceUser = (device_user) => {
 };
 
 export const updateDeviceUser = (device_user) => {
-    return axios.put(`${process.env.REACT_APP_API}device-user/`, device_user, {
+    return axios.put(`${process.env.REACT_APP_API}deviceUser/`, device_user, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -85,7 +85,7 @@ export const updateDeviceUser = (device_user) => {
 };
 
 export const deleteDeviceUser = (data) => {
-    return axios.delete(`${process.env.REACT_APP_API}device-user/`, data, {
+    return axios.delete(`${process.env.REACT_APP_API}deviceUser/`, data, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -148,7 +148,7 @@ export const actRSA = (rsa_connection) => {
 
 export const getDeviceUsers = (username) => {
     console.log(username);
-    return axios.get(`${process.env.REACT_APP_API}device-user/`, {
+    return axios.get(`${process.env.REACT_APP_API}deviceUser/`, {
         headers: {
             "Content-Type": "application/json",
         }
