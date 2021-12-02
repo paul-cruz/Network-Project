@@ -4,22 +4,7 @@ import time
 
 class ProtocolsController(DeviceController):
   def __init__(self) -> None:
-    self.ips = ["192.168.10.254", "192.168.20.254"]
-
-  def getNetworkIds(self, ip: str, user: str, password: str):
-    try:
-      networks = []
-      device = self.prepareDevice(ip, user, password)
-      arpTable = device.get_arp_table()
-      for register in arpTable:
-        if register["age"] != -1.0:
-          splittedIp = register["ip"].split(".")
-          splittedIp[-1] = "0"
-          networkIp = ".".join(splittedIp)
-          networks.append(networkIp)
-      return networks, device
-    except Exception as e:
-      print("Error: ", e)
+    self.ips, self.visited = self.getTopology('192.168.10.254', 'cisco', 'cisco')
 
   def deactivateProtocols(self, protocolToActivate: str, deviceIp: str, user: str, password: str):
     device = self.prepareDevice(deviceIp, user, password)
