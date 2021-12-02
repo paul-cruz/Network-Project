@@ -11,7 +11,7 @@ api = Api(
     prefix='/api'
 )
 
-api.add_namespace(nsAppUser, path='/app-user')
+api.add_namespace(nsAppUser, path='/appuser')
 api.add_namespace(nsDeviceUser, path='/device-user')
 api.add_namespace(nsProtocol, path='/protocols')
 api.add_namespace(nsRSA, path='/RSA')

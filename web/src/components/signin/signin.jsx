@@ -6,6 +6,7 @@ import classes from "./signin.module.css";
 import FormContainer from "../global_components/form_container/form_container";
 import SignInForm from "./components/signin_form";
 import Footer from "./components/footer";
+import { logAppUser } from "../../utils/functions";
 
 function SignIn() {
   const emailRef = useRef();
@@ -13,12 +14,19 @@ function SignIn() {
   const navigate = useNavigate();
 
   const signInHandler = () => {
-    //TODO: Call the API
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
+    const req = {
+      "username": emailRef.current.value,
+      "password": passwordRef.current.value
+    }
 
-    //TODO: check if response was succesful
-    navigate("/home");
+    logAppUser(req).then((res) => {
+      console.log(res);
+      if (res) {
+        navigate("/home");
+      } else {
+        alert("Credenciales incorrectas");
+      }
+    })
   };
 
   return (

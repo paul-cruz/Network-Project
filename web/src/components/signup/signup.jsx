@@ -5,6 +5,7 @@ import FormContainer from "../global_components/form_container/form_container";
 import classes from "./signup.module.css";
 import SignUpForm from "./components/signup_form";
 import Footer from "./components/footer";
+import { registerAppUser } from "../../utils/functions";
 
 function SignUp() {
   const nameRef = useRef();
@@ -13,12 +14,21 @@ function SignUp() {
   const navigate = useNavigate();
 
   const signUpHandler = () => {
-    //TODO: CAll the API
-    console.log(nameRef.current.value);
-    console.log(emailRef.current.value);
-    console.log(passwordRef.current.value);
-    //TODO: Check if call was succesfull
-    navigate("/signin");
+    const req = {
+      "email": emailRef.current.value,
+      "username": nameRef.current.value,
+      "password": passwordRef.current.value
+    }
+
+    registerAppUser(req).then((res) => {
+      console.log(res);
+      if (res["msg"] === "Inserted") {
+        navigate("/signin");
+      } else {
+        console.log(res);
+        alert("Hubo un error");
+      }
+    })
   };
 
   return (

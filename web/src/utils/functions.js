@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const registerAppUser = (app_user) => {
     console.log(app_user);
-    return axios.post(`${process.env.REACT_APP_API}app-user`, app_user, {
+    return axios.post(`${process.env.REACT_APP_API}appuser`, app_user, {
         Headers: { 'Content-Type': 'application/json' }
     }).then((res) => {
         return res;
@@ -13,7 +13,7 @@ export const registerAppUser = (app_user) => {
 
 export const getAppUser = (username) => {
     console.log(username);
-    return axios.get(`${process.env.REACT_APP_API}app-user/${username}`, {
+    return axios.get(`${process.env.REACT_APP_API}appuser/${username}`, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -25,7 +25,7 @@ export const getAppUser = (username) => {
 };
 
 export const updateAppUser = (app_user, username) => {
-    return axios.put(`${process.env.REACT_APP_API}app-user/${username}`, app_user, {
+    return axios.put(`${process.env.REACT_APP_API}appuser/${username}`, app_user, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -37,7 +37,7 @@ export const updateAppUser = (app_user, username) => {
 };
 
 export const deleteAppUser = (username) => {
-    return axios.delete(`${process.env.REACT_APP_API}app-user/${username}`, {
+    return axios.delete(`${process.env.REACT_APP_API}appuser/${username}`, {
         headers: {
             "Content-Type": "application/json",
         }
@@ -49,7 +49,7 @@ export const deleteAppUser = (username) => {
 };
 
 export const logAppUser = (app_user) => {
-    return axios.post(`${process.env.REACT_APP_API}app-user/login/`, app_user, {
+    return axios.post(`${process.env.REACT_APP_API}appuser/login/`, app_user, {
         headers: {
             "Content-Type": "application/json",
         }

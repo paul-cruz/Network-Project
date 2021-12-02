@@ -8,7 +8,7 @@ function SignInForm(props) {
         <Form.Group className="mb-3 col-md-8 " controlId="formBasicEmail">
           <Form.Control
             type="email"
-            placeholder="Introduce tu correo"
+            placeholder="Introduce tu username"
             ref={props.email_ref}
           />
         </Form.Group>
