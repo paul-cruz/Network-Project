@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import {getTopology} from "./functions/functions";
 
 import {
   configureEIGRP,
@@ -21,6 +22,9 @@ function Topology() {
     console.log("update");
     const interval = setInterval(() => {
       console.log("Update interval");
+      getTopology().then((data) => {
+        console.log(data);
+      });
     }, updateTime * 1000);
 
     return () => clearInterval(interval);

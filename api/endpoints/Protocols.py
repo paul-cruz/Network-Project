@@ -41,10 +41,13 @@ class ProtocolRIP(Resource):
             if response and success:
                 return {'msg': response["response"]}, 200
             else:
+                print(response)
                 return response, 409
         except ValueError as ve:
+            print(ve)
             api.abort(404)
         except Exception as e:
+            print(e)
             print('Server Error', e)
             api.abort(500)
 
@@ -64,6 +67,7 @@ class ProtocolOSPF(Resource):
             if response and success:
                 return {'msg': response["response"]}, 200
             else:
+                print(response)
                 return response, 409
         except ValueError as ve:
             api.abort(404)
@@ -87,6 +91,7 @@ class ProtocolEIGRP(Resource):
             if response and success:
                 return {'msg': response["response"]}, 200
             else:
+                print(response)
                 return response, 409
         except ValueError as ve:
             api.abort(404)

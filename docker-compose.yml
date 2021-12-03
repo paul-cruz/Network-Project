@@ -21,9 +21,11 @@ services:
       DB_NAME: db-project
 
   db-service:
-    image: mongo
+    image: mongo:4.4.11-rc0-focal
     volumes:
       - data-volume:/data/db
+    logging:
+      driver: none
     ports:
       - "27017:27017"
     networks:

@@ -3,7 +3,7 @@ from flask_restplus import Namespace, Resource, fields
 
 device_controller = DeviceController()
 
-api = Namespace('device', description='Operations related with devices')
+api = Namespace('topology', description='Operations related with topology')
 
 device_connection = api.model('Device data', {
     "ip": fields.String(description='Device ip'),
@@ -12,7 +12,7 @@ device_connection = api.model('Device data', {
     "adminPass": fields.String(description='admin password in device'),
 })
 
-@api.route('/activate')
+@api.route('/')
 @api.response(404, 'Router not found')
 @api.response(409, 'Error from the device')
 @api.response(500, 'Server Error')
@@ -23,7 +23,7 @@ class getTopology(Resource):
         try:
             req = api.payload
             config = {'ip': req['ip'], 'user': req['admin'], 'password': req['adminPass'], 'name': req['name']}
-            success, ips, routers_names = device_controller.getTopology(config['ip'], config['name'], config['user'], config['password'])
+            success, ips, routers_names, _ = device_controller.getTopology(config['ip'], config['name'], config['user'], config['password'])
             if ips and success:
                 return {'ips': ips, 'names': routers_names}, 200
             else:
