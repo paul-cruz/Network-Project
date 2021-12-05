@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
@@ -8,10 +8,21 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 
 import classes from "./navbar.module.css";
 import DevicesList from "./devices/devices_list";
+import { getTopology } from "../../../utils/functions";
 
 function NavBar(props) {
   const [showSideMenu, setShowSideMenu] = useState(false);
+  const [devices, setDevices] = useState([]); 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(showSideMenu) {
+      getTopology().then(res => {
+        console.log(res);
+        setDevices(res);
+      })
+    }
+  }, [showSideMenu]);
 
   const setPageIndex = (index) => {
     props.set_page(index);
@@ -58,11 +69,13 @@ function NavBar(props) {
         </Container>
       </Navbar>
       <Offcanvas show={showSideMenu} onHide={setShowSideMenu.bind(false)}>
+        
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Dispositivos</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <DevicesList />
+        {devices.ips !== undefined ? <DevicesList ips={devices.ips} names={devices.names}/> : <p>Loading...</p>}
+          
         </Offcanvas.Body>
       </Offcanvas>
     </>

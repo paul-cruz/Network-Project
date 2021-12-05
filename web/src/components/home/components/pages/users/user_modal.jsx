@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { updateDeviceUser } from "../../../../../utils/functions";
+import { updateDeviceUser, insertLog } from "../../../../../utils/functions";
 
 function UserModal(props) {
   const ipRef = useRef();
@@ -21,6 +21,7 @@ function UserModal(props) {
     console.log(req);
     updateDeviceUser(req).then((res) => {
       console.log(res);
+      insertLog('Miguel', 'Actualizó la contraseña de un usuario en los dispositivos');
     });
     props.on_hide();
   };

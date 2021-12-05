@@ -179,6 +179,7 @@ class DeviceController:
             allIps.append(ips[index])
       return True, allIps, visited
     except Exception as e:
+      print(traceback.format_exc())
       print(e)
       return False
 

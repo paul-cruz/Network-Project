@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { deleteDeviceUser } from "../../../../../utils/functions";
+import { deleteDeviceUser, insertLog } from "../../../../../utils/functions";
 
 function DeleteUserModal(props) {
   const ipRef = useRef();
@@ -19,6 +19,7 @@ function DeleteUserModal(props) {
     console.log(req);
     deleteDeviceUser(req).then((res) => {
       console.log(res);
+      insertLog('Miguel', 'Eliminó a un usuario de los dispositivos');
     });
     props.on_hide();
   };

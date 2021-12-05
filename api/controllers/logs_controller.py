@@ -3,6 +3,7 @@ import pymongo
 from Crypto.Hash import SHA256
 from pymongo.collection import ReturnDocument
 from datetime import datetime
+import os
 
 myclient = pymongo.MongoClient(os.getenv("DB_CONN"))
 db = myclient[os.getenv("DB_NAME")]
@@ -26,11 +27,11 @@ class LogsController:
 
   def getLogs(self):
     try:
-      result = logs_col.find()
+      result = list(logs_col.find())
       if result:
         return True, result
       else:
-        return False, {}
+        return False, []
     except Exception as e:
       print(e)
       return False, e
