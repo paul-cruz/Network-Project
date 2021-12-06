@@ -1,9 +1,10 @@
 from controllers.main_controller import DeviceController
 from flask_restplus import Namespace, Resource, fields
+import traceback
 
 device_controller = DeviceController()
 
-api = Namespace('device', description='Operations related with devices')
+api = Namespace('topology', description='Operations related with topology')
 
 device_connection = api.model('Device data', {
     "ip": fields.String(description='Device ip'),
@@ -12,7 +13,7 @@ device_connection = api.model('Device data', {
     "adminPass": fields.String(description='admin password in device'),
 })
 
-@api.route('/activate')
+@api.route('/')
 @api.response(404, 'Router not found')
 @api.response(409, 'Error from the device')
 @api.response(500, 'Server Error')
@@ -29,8 +30,11 @@ class getTopology(Resource):
             else:
                 return 'Error', 409
         except ValueError as ve:
+            print(traceback.format_exc())
+            print('Server Error', ve)
             api.abort(404)
         except Exception as e:
+            print(traceback.format_exc())
             print('Server Error', e)
             api.abort(500)
 

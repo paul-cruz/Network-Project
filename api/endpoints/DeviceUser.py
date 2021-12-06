@@ -4,6 +4,7 @@ import pymongo
 from Crypto.Hash import SHA256
 from pymongo.collection import ReturnDocument
 from flask_restplus import Namespace, Resource, fields
+import traceback
 
 myclient = pymongo.MongoClient(os.getenv("DB_CONN"))
 db = myclient[os.getenv("DB_NAME")]
@@ -45,8 +46,10 @@ class DeviceUsers(Resource):
             else:
                 return resp, 409
         except ValueError as ve:
+            print(traceback.format_exc())
             api.abort(404)
         except Exception as e:
+            print(traceback.format_exc())
             print('Server Error', e)
             api.abort(500)
 
@@ -62,8 +65,10 @@ class DeviceUsers(Resource):
             else:
                 return resp, 409
         except ValueError as ve:
+            print(traceback.format_exc())
             api.abort(404)
         except Exception as e:
+            print(traceback.format_exc())
             print('Server Error', e)
             api.abort(500)
 
@@ -81,7 +86,9 @@ class DeviceUsers(Resource):
             else:
                 return resp, 409
         except ValueError as ve:
+            print(traceback.format_exc())
             api.abort(404)
         except Exception as e:
+            print(traceback.format_exc())
             print('Server Error', e)
             api.abort(500)

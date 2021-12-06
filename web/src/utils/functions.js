@@ -158,3 +158,26 @@ export const getDeviceUsers = (username) => {
         return error.response;
     });
 };
+
+export async function getTopology() {
+    const response = await axios.post(`${process.env.REACT_APP_API}topology/`, {
+        'ip': '192.168.10.254',
+        'name': 'R1',
+        'admin': 'cisco',
+        'adminPass': 'cisco',
+      });
+    return response.data;
+}
+
+export async function insertLog(userName, action) {
+    const response = await axios.post(`${process.env.REACT_APP_API}logs/`, {
+        'user': userName,
+        'action': action,
+      });
+    return response.data;
+}
+
+export async function getLogs() {
+    const response = await axios.get(`${process.env.REACT_APP_API}logs/`);
+    return response.data;
+}

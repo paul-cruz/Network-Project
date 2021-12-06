@@ -4,20 +4,26 @@ from controllers.main_controller import DeviceController
 
 class UserController(DeviceController):
   def __init__(self) -> None:
-    self.ips, self.visited = self.getTopology('192.168.10.254', 'cisco', 'cisco')
+    #self.ips, self.visited, _ = self.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')
+    pass
 
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):
+    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
+        print(deviceIp)
         device = self.prepareDevice(deviceIp, user, password)
         device.load_merge_candidate(config='username %s priv 15 pass %s\n'%(newUser, newPassword))
         device.commit_config()
+        print("Added user on ",deviceIp)
         device.close()
     except Exception as e:
+      print(traceback.format_exc())
       return False, {"response": "Error: %s"%e}
     return True, {"response": "User %s has been inserted"%newUser}
 
   def updateUser(self, ip: str, user: str, password: str, newPassword: str):
+    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
@@ -25,10 +31,12 @@ class UserController(DeviceController):
         device.commit_config()
         device.close()
     except Exception as e:
+      print(traceback.format_exc())
       return False, {"response": "Error: %s"%e}
     return True, {"response": "Password of user %s has been updated"%user}
 
   def deleteUser(self, ip: str, user: str, password: str):
+    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
@@ -36,6 +44,7 @@ class UserController(DeviceController):
         device.commit_config()
         device.close()
     except Exception as e:
+      print(traceback.format_exc())
       return False, {"response": "Error: %s"%e}
     return True, {"response": "User '%s' has been deleted"%user}
 

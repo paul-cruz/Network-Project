@@ -3,21 +3,24 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 
-import { actRSA } from "../../../../utils/functions";
+import { actRSA, insertLog } from "../../../../utils/functions";
 
 function DeviceItem(props) {
   const [isEnabledRSA, setIsEnabledRSA] = useState(false);
+  const [isCallingAPI, setIsCallingAPI] = useState(false);
 
   const addRSA = () => {
+    setIsCallingAPI(true);
     const configureRSA = {
       ip: props.ip,
       admin: "cisco",
       adminPass: "cisco",
     };
-
-    setIsEnabledRSA(true);
+    
     actRSA(configureRSA).then(() => {
-      setIsEnabledRSA(false);
+      setIsEnabledRSA(true);
+      setIsCallingAPI(false);
+      insertLog('Miguel', 'Activó RSA en el router: ' + props.name);
     });
   };
 
@@ -29,9 +32,9 @@ function DeviceItem(props) {
         </Col>
         <Col onClick={addRSA}>
           {isEnabledRSA ? (
-            <AiOutlineLock size="1.5rem" color="#0F9D58" />
+            isCallingAPI ? <p>...</p> : <AiOutlineLock size="1.5rem" color="#0F9D58" />
           ) : (
-            <AiOutlineUnlock size="1.5rem" color="#DB4437" />
+            isCallingAPI ? <p>...</p> : <AiOutlineUnlock size="1.5rem" color="#DB4437" />
           )}
         </Col>
       </Row>

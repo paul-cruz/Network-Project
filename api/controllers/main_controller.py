@@ -1,6 +1,7 @@
 import napalm
 import json
 import time
+import traceback
 
 class DeviceController:
   def prepareDevice(self, ip: str, user: str, password: str):
@@ -178,9 +179,10 @@ class DeviceController:
             allIps.append(ips[index])
       return True, allIps, visited
     except Exception as e:
+      print(traceback.format_exc())
       print(e)
       return False
 
 #Usage
-mainController =  DeviceController()
-mainController.insertRoutingInAllDevices("192.168.10.254", 'cisco', 'cisco')
+#mainController =  DeviceController()
+#mainController.insertRoutingInAllDevices("192.168.10.254", 'cisco', 'cisco')

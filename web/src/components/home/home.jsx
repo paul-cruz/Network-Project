@@ -8,7 +8,7 @@ import Users from "./components/pages/users/users";
 
 function Home() {
   const [pageIndex, setPageIndex] = useState(0);
-  const pages = [<Topology />, <Users />, <Logs />, <Graph />];
+  const pages = [<Topology />, <Users />, <Logs pageIndex ={pageIndex}/>, <Graph />];
 
   const getPage = () => {
     console.log(pageIndex);

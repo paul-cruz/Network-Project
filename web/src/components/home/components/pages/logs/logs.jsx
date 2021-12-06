@@ -1,102 +1,35 @@
 import { useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 
+import { getLogs } from '../../../../../utils/functions';
 import classes from "./logs.module.css";
 
-function Logs() {
+function Logs(props) {
   const [logs, setLogs] = useState();
 
   useEffect(() => {
-    //TODO: Call the API
-    setLogs([
-      {
-        user: "Pedro",
-        date: "09/11/2021 10:23:10",
-        action: "Activó el procolo RIP en la topología",
-      },
-      {
-        user: "Alexisssss",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Ajua",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-      {
-        user: "Alexis",
-        date: "09/12/2021 12:23:10",
-        action: "Activó RSA y SSH en el dispositivo 1",
-      },
-    ]);
-  }, []);
+    getLogs().then(response => setLogs(response));
+
+    const id = setInterval(() => {
+      getLogs().then(response => setLogs(response));
+    }, 20000);
+
+    return () => {
+      clearInterval(id);
+    }
+  }, [props.pageIndex]);
 
   const buildRegister = (log) => {
-    const nameSpaces = " ".repeat(15 - log.user.length);
+    const nameSpaces = " ".repeat(10 - log.user.length);
     const dateSpaces = " ".repeat(5);
-    const actionSpaces = " ".repeat(40 - log.action.length);
+    const actionSpaces = " ".repeat(70 - log.action.length);
     return `> ${log.user}${nameSpaces} | ${log.date}${dateSpaces} | ${log.action}${actionSpaces}`;
   };
 
   if (!logs) {
-    return <Spinner />;
+    return <p>Loading...</p>;
   }
 
-  /*
-  <ProjectToast
-        show={show}
-        onClose={() => setShow(false)}
-        title="Actualización"
-        variant="primary"
-        delay={1000}
-      />
-  */
   return (
     <div className={classes.container}>
       {logs.map((log) => {

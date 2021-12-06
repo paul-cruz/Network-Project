@@ -1,14 +1,13 @@
 import DeviceItem from "./device_item";
 
-function DevicesList() {
+function DevicesList(props) {
   return (
     <ul>
-      <li>
-        <DeviceItem id={0} name="Dispositivo 1" ip={"192.168.10.254"} />
+      {props.ips.map((ip, index) => {
+        return <li>
+        <DeviceItem id={index} name={props.names[index]} ip={ip} />
       </li>
-      <li>
-        <DeviceItem id={1} name="Dispositivo 2" ip={"192.168.20.254"} />
-      </li>
+      })}
     </ul>
   );
 }

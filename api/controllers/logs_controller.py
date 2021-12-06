@@ -3,6 +3,7 @@ import pymongo
 from Crypto.Hash import SHA256
 from pymongo.collection import ReturnDocument
 from datetime import datetime
+import os
 
 myclient = pymongo.MongoClient(os.getenv("DB_CONN"))
 db = myclient[os.getenv("DB_NAME")]
@@ -10,8 +11,9 @@ logs_col = db["logs"]
 
 class LogsController:
   def __init__(self) -> None:
-    self.ips = ["192.168.10.254", "192.168.20.254"]
-
+    #self.ips, self.visited, _ = self.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')
+    pass
+    
   def addLog(self, user: str, action: str):
     try:
       now = datetime.now()
@@ -25,11 +27,11 @@ class LogsController:
 
   def getLogs(self):
     try:
-      result = logs_col.find()
+      result = list(logs_col.find())
       if result:
         return True, result
       else:
-        return False, {}
+        return False, []
     except Exception as e:
       print(e)
       return False, e

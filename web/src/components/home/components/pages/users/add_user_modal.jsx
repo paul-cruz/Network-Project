@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { registerDeviceUser } from "../../../../../utils/functions";
+import { registerDeviceUser, insertLog } from "../../../../../utils/functions";
 
 function UserModal(props) {
   const ipRef = useRef();
@@ -22,6 +22,7 @@ function UserModal(props) {
     console.log(req);
     registerDeviceUser(req).then((res) => {
       console.log(res);
+      insertLog('Miguel', 'Añadió un usuario a los dispositivos');
     });
     props.on_hide();
   };
