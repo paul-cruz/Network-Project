@@ -3,13 +3,16 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 
+import DeviceDataModal from './modal/data_modal';
 import { actRSA, insertLog } from "../../../../utils/functions";
 
 function DeviceItem(props) {
   const [isEnabledRSA, setIsEnabledRSA] = useState(false);
   const [isCallingAPI, setIsCallingAPI] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const addRSA = () => {
+  const addRSA = (e) => {
+    e.stopPropagation();
     setIsCallingAPI(true);
     const configureRSA = {
       ip: props.ip,
@@ -25,7 +28,8 @@ function DeviceItem(props) {
   };
 
   return (
-    <div>
+    <>
+    <div onClick={() => setShowModal(true)}>
       <Row className="m-3">
         <Col>
           <h5>{props.name}</h5>
@@ -42,6 +46,9 @@ function DeviceItem(props) {
         <p>ip: {props.ip}</p>
       </Row>
     </div>
+    <DeviceDataModal show={showModal} on_hide={() => setShowModal(false)} />
+    </>
+
   );
 }
 

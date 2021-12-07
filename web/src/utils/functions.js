@@ -181,3 +181,8 @@ export async function getLogs() {
     const response = await axios.get(`${process.env.REACT_APP_API}logs/`);
     return response.data;
 }
+
+export async function getSNMPData() {
+    const response = await axios.post(`${process.env.REACT_APP_API}SNMP/`);
+    return response.data;
+}

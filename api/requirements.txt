@@ -29,3 +29,4 @@ typing-extensions==3.10.0.2
 zipp==3.6.0
 pycryptodome==3.11.0
 napalm==3.3.1
+pysnmp==4.4.12

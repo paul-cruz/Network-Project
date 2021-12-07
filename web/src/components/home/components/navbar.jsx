@@ -68,14 +68,12 @@ function NavBar(props) {
           </div>
         </Container>
       </Navbar>
-      <Offcanvas show={showSideMenu} onHide={setShowSideMenu.bind(false)}>
-        
+      <Offcanvas show={showSideMenu} onHide={setShowSideMenu.bind(false)}>        
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Dispositivos</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
         {devices.ips !== undefined ? <DevicesList ips={devices.ips} names={devices.names}/> : <p>Loading...</p>}
-          
         </Offcanvas.Body>
       </Offcanvas>
     </>
