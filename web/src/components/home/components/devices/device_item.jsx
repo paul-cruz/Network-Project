@@ -6,6 +6,8 @@ import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 import DeviceDataModal from './modal/data_modal';
 import { actRSA, insertLog } from "../../../../utils/functions";
 
+import classes from './device.module.css';
+
 function DeviceItem(props) {
   const [isEnabledRSA, setIsEnabledRSA] = useState(false);
   const [isCallingAPI, setIsCallingAPI] = useState(false);
@@ -23,19 +25,20 @@ function DeviceItem(props) {
     actRSA(configureRSA).then(() => {
       setIsEnabledRSA(true);
       setIsCallingAPI(false);
+      localStorage.setItem(props.name, 1);
       insertLog(localStorage.getItem('username'), 'Activó RSA en el router: ' + props.name);
     });
   };
 
   return (
     <>
-    <div onClick={() => setShowModal(true)}>
+    <div onClick={() => setShowModal(true)} className={classes.clickable}>
       <Row className="m-3">
         <Col>
           <h5>{props.name}</h5>
         </Col>
         <Col onClick={addRSA}>
-          {isEnabledRSA ? (
+          {isEnabledRSA || localStorage.getItem(props.name) !== null ? (
             isCallingAPI ? <p>...</p> : <AiOutlineLock size="1.5rem" color="#0F9D58" />
           ) : (
             isCallingAPI ? <p>...</p> : <AiOutlineUnlock size="1.5rem" color="#DB4437" />
