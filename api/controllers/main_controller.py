@@ -172,9 +172,6 @@ class DeviceController:
       while next:
         router = next.pop(0)
         ips, names = self.getDevicesData(router, user, password)
-        """graphData[router] = []
-        for index2, ip2 in enumerate(ips):
-          graphData[router].append({names[index2]: ip2})"""
         if len(currentName) > 0:
           curName = currentName.pop(0)
           graphData[curName] = []

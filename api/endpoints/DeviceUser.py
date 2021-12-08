@@ -72,11 +72,40 @@ class DeviceUsers(Resource):
             print('Server Error', e)
             api.abort(500)
 
-    @api.doc('delete_app_users')
+    @api.doc('delete_device_user')
     @api.expect(device_user)
     def delete(self):
         try:
             req = api.payload
+            print(req)
+            result = app_users_col.find_one_and_delete(
+                {'username': req['username']})
+            success, resp = user_controller.deleteUser(
+                req['ip'], req['username'], req['password'])
+            if result and success:
+                return {'msg': 'Deleted'}, 201
+            else:
+                return resp, 409
+        except ValueError as ve:
+            print(traceback.format_exc())
+            api.abort(404)
+        except Exception as e:
+            print(traceback.format_exc())
+            print('Server Error', e)
+            api.abort(500)
+
+
+@api.route('/delete/')
+@api.response(404, 'User not found')
+@api.response(409, 'Error from the device')
+@api.response(500, 'Server Error')
+class DeviceUsersDelete(Resource):
+    @api.doc('delete_users')
+    @api.expect(device_user)
+    def post(self):
+        try:
+            req = api.payload
+            print(req)
             result = app_users_col.find_one_and_delete(
                 {'username': req['username']})
             success, resp = user_controller.deleteUser(

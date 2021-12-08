@@ -85,7 +85,7 @@ export const updateDeviceUser = (device_user) => {
 };
 
 export const deleteDeviceUser = (data) => {
-    return axios.delete(`${process.env.REACT_APP_API}deviceUser/`, data, {
+    return axios.post(`${process.env.REACT_APP_API}deviceUser/delete/`, data, {
         headers: {
             "Content-Type": "application/json",
         }

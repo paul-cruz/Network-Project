@@ -19,7 +19,8 @@ function DeleteUserModal(props) {
     console.log(req);
     deleteDeviceUser(req).then((res) => {
       console.log(res);
-      insertLog(localStorage.getItem('username'), 'Eliminó a un usuario de los dispositivos');
+      alert('Usuario eleminado de todos los dispositivos');
+      insertLog(localStorage.getItem('username'), 'Eliminó a ' + props.username +' de los dispositivos');
     });
     props.on_hide();
   };
@@ -54,7 +55,7 @@ function DeleteUserModal(props) {
             >
               <Form.Control
                 type="password"
-                placeholder="Introduce tu nueva contraseña"
+                placeholder="Introduce la contraseña del usuario"
                 ref={passwordRef}
               />
             </Form.Group>

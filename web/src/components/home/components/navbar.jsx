@@ -20,6 +20,7 @@ function NavBar(props) {
       getTopology('NewHost').then(res => {
         console.log(res);
         setDevices(res);
+        localStorage.setItem('routers', res['ips'].length);
       })
     }
   }, [showSideMenu]);

@@ -23,11 +23,13 @@ function Topology() {
     getTopology().then((data) => {
       console.log(data);
       setDataForGraph(data);
+      localStorage.setItem('routers', data['ips'].length);
     });
     const interval = setInterval(() => {
       getTopology().then((data) => {
         console.log(data);
         setDataForGraph(data);
+        localStorage.setItem('routers', data['ips'].length);
       });
     }, updateTime * 1000);
 

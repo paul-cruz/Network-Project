@@ -23,7 +23,7 @@ class LogsController:
 
   def getLogs(self):
     try:
-      result = list(logs_col.find())
+      result = list(logs_col.find().sort([('$natural', -1)]))
       if result:
         return True, result
       else:

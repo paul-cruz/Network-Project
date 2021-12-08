@@ -13,19 +13,15 @@ import classes from "./graph.module.css";
 const data = [
   {
     name: "Número de dispositivos",
-    value: 2400,
+    valor: localStorage.getItem('routers') || 0,
   },
   {
     name: "Paquetes enviados x día",
-    value: 3000,
+    valor: 10,
   },
   {
     name: "Paquetes perdidos x día",
-    value: 2000,
-  },
-  {
-    name: "",
-    value: 2780,
+    valor: 3,
   },
 ];
 
@@ -53,7 +49,7 @@ const Graph = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value" fill="#8884d8" />
+          <Bar dataKey="valor" fill="#8884d8" />
         </BarChart>
       </div>
     </>

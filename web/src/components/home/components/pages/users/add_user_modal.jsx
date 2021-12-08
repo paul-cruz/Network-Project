@@ -22,7 +22,8 @@ function UserModal(props) {
     console.log(req);
     registerDeviceUser(req).then((res) => {
       console.log(res);
-      insertLog(localStorage.getItem('username'), 'Añadió un usuario a los dispositivos');
+      alert('Se ha añadido un usuario a todos los dispositivos');
+      insertLog(localStorage.getItem('username'), 'Añadió a ' + req['username'] + ' a los dispositivos');
     });
     props.on_hide();
   };
@@ -56,7 +57,7 @@ function UserModal(props) {
               controlId="formBasicPassword"
             >
               <Form.Control
-                type="password"
+                type="text"
                 placeholder="Introduce tu username"
                 ref={usernameRef}
               />
