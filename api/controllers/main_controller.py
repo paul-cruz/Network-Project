@@ -2,6 +2,8 @@ import napalm
 import json
 import time
 import traceback
+from pysnmp import hlapi
+#from snmp_controller import SNMPController
 
 class DeviceController:
   def prepareDevice(self, ip: str, user: str, password: str):
@@ -106,11 +108,6 @@ class DeviceController:
         time.sleep(30)
     except Exception as e:
       print(e) 
-  
-  def insertRoutingInAllDevices(self, ip, user, password, protocol = "RIP"):
-    device = self.prepareDevice(ip, user, password)
-    self.configProtocol(device, ip, user, password, protocol)
-    print(self.getDeviceNeighbors(ip, user, password))
 
   def getDeviceNeighbors(self, ip, user, password): 
     routers = []
@@ -144,10 +141,6 @@ class DeviceController:
       command = ["show cdp neighbors detail"]
       data = device.cli(command)
       splittedLines = data['show cdp neighbors detail'].split('\n')
-      if configureProtocol:
-        print("Configure protocol in " + ip)
-        self.configProtocol(device, ip, user, password, protocol, splittedLines)
-        print("Configured")
       for line in splittedLines:
         line = line.strip()
         try:
@@ -165,19 +158,35 @@ class DeviceController:
       return False, e
 
   def getTopology(self, ip, name, user, password):
+    from controllers.snmp_controller import SNMPController
+    
+    snmp_controll = SNMPController()
+    host = snmp_controll.get(ip, ['1.3.6.1.2.1.1.5.0'], hlapi.UsmUserData('cisco', authKey='ciscocisco', privKey='ciscocisco', authProtocol=hlapi.usmHMACSHAAuthProtocol, privProtocol=hlapi.usmDESPrivProtocol))
+    name = host['1.3.6.1.2.1.1.5.0'].split(".")[0]
     try:
       next = [ip]
       visited = [name]
+      currentName = [name]
       allIps = [ip]
+      graphData = {}
       while next:
         router = next.pop(0)
         ips, names = self.getDevicesData(router, user, password)
+        """graphData[router] = []
+        for index2, ip2 in enumerate(ips):
+          graphData[router].append({names[index2]: ip2})"""
+        if len(currentName) > 0:
+          curName = currentName.pop(0)
+          graphData[curName] = []
+          for index2, ip2 in enumerate(ips):
+            graphData[curName].append({names[index2]: ip2})
         for index, name in enumerate(names):
           if name not in visited:
             next.append(ips[index])
             visited.append(name)
+            currentName.append(name)
             allIps.append(ips[index])
-      return True, allIps, visited
+      return True, allIps, visited, graphData
     except Exception as e:
       print(traceback.format_exc())
       print(e)
@@ -186,3 +195,4 @@ class DeviceController:
 #Usage
 #mainController =  DeviceController()
 #mainController.insertRoutingInAllDevices("192.168.10.254", 'cisco', 'cisco')
+#print(mainController.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco'))

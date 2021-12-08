@@ -16,14 +16,18 @@ import {
 function Topology() {
   const [isRunningCommand, setIsRunningCommand] = useState(false);
   const [updateTime, setUpdateTime] = useState(10);
+  const [dataForGraph, setDataForGraph] = useState(null); 
   const protocolRef = useRef();
 
   useEffect(() => {
-    console.log("update");
+    getTopology().then((data) => {
+      console.log(data);
+      setDataForGraph(data);
+    });
     const interval = setInterval(() => {
-      console.log("Update interval");
       getTopology().then((data) => {
         console.log(data);
+        setDataForGraph(data);
       });
     }, updateTime * 1000);
 
@@ -108,6 +112,7 @@ function Topology() {
           </Button>
         </Col>
       </Row>
+      {dataForGraph === null ? <p>Loading...</p> : null}
     </Container>
   );
 }

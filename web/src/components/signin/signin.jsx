@@ -20,8 +20,8 @@ function SignIn() {
     }
 
     logAppUser(req).then((res) => {
-      console.log(res);
-      if (res) {
+      if (res['status'] === 200) {
+        localStorage.setItem('username', req['username']);
         navigate("/home");
       } else {
         alert("Credenciales incorrectas");

@@ -22,7 +22,7 @@ function SignUp() {
 
     registerAppUser(req).then((res) => {
       console.log(res);
-      if (res["msg"] === "Inserted") {
+      if (res["status"] === 201) {
         navigate("/signin");
       } else {
         console.log(res);

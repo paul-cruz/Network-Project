@@ -24,9 +24,9 @@ class getTopology(Resource):
         try:
             req = api.payload
             config = {'ip': req['ip'], 'user': req['admin'], 'password': req['adminPass'], 'name': req['name']}
-            success, ips, routers_names = device_controller.getTopology(config['ip'], config['name'], config['user'], config['password'])
+            success, ips, routers_names, graphData = device_controller.getTopology(config['ip'], config['name'], config['user'], config['password'])
             if ips and success:
-                return {'ips': ips, 'names': routers_names}, 200
+                return {'ips': ips, 'names': routers_names, 'graphData': graphData}, 200
             else:
                 return 'Error', 409
         except ValueError as ve:
@@ -37,4 +37,3 @@ class getTopology(Resource):
             print(traceback.format_exc())
             print('Server Error', e)
             api.abort(500)
-

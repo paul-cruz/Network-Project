@@ -17,7 +17,7 @@ function NavBar(props) {
 
   useEffect(() => {
     if(showSideMenu) {
-      getTopology().then(res => {
+      getTopology('NewHost').then(res => {
         console.log(res);
         setDevices(res);
       })

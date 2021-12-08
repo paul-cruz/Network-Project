@@ -4,10 +4,6 @@ import time
 import traceback
 
 class ProtocolsController(DeviceController):
-  def __init__(self) -> None:
-    #self.ips, self.visited, _ = self.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')
-    pass
-  
   def deactivateProtocols(self, protocolToActivate: str, deviceIp: str, user: str, password: str):
     try:
       device = self.prepareDevice(deviceIp, user, password)
@@ -25,7 +21,7 @@ class ProtocolsController(DeviceController):
       print(traceback.format_exc())
 
   def activateRIP(self, ip: str, user: str, password: str):
-    success, self.ips, _ = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, _, _ = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
@@ -59,7 +55,7 @@ class ProtocolsController(DeviceController):
     return True, {"response": "RIP protocol has been activated"}
 
   def activateOSPF(self, ip: str, user: str, password: str, wildcard: str, area: str):
-    success, self.ips, _ = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, _, _ = self.getTopology(ip, 'R1', user, password)
     print(self.ips)
     try:
       for deviceIp in self.ips:
@@ -93,7 +89,7 @@ class ProtocolsController(DeviceController):
     return True, {"response": "OSPF protocol has been activated"}
 
   def activateEIGRP(self, ip: str, user: str, password: str):
-    success, self.ips, _ = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, _, _ = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)

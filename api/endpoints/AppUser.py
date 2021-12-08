@@ -34,7 +34,7 @@ class Users(Resource):
             result_id = app_users_col.insert_one(api.payload).inserted_id
             if result_id:
                 return {'msg': 'Inserted'}, 201
-            raise ValueError('app_users not found')
+            return {'error', 'Not inserted'}, 500
         except pymongo.errors.DuplicateKeyError:
             api.abort(409)
         except ValueError as ve:

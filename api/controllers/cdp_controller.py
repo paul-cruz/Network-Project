@@ -8,7 +8,7 @@ from main_controller import DeviceController
 
 class CDPController(DeviceController):
   def getTopology(self, ip, name, user, password):
-    try:
+    """try:
       next = [ip]
       visited = [name]
       allIps = [ip]
@@ -28,7 +28,7 @@ class CDPController(DeviceController):
       print(network)
       return allIps, visited, network
     except Exception as e:
-      print(e)
+      print(e)"""
 #Usage
 #cdpController = CDPController()
 #cdpController.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')

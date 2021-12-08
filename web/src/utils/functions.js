@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 export const registerAppUser = (app_user) => {
-    console.log(app_user);
-    return axios.post(`${process.env.REACT_APP_API}appuser`, app_user, {
+    return axios.post(`${process.env.REACT_APP_API}appuser/`, app_user, {
         Headers: { 'Content-Type': 'application/json' }
     }).then((res) => {
+        console.log(res);
         return res;
     }).catch(error => {
         return error.response;
@@ -159,10 +159,10 @@ export const getDeviceUsers = (username) => {
     });
 };
 
-export async function getTopology() {
+export async function getTopology(routerName = "R1") {
     const response = await axios.post(`${process.env.REACT_APP_API}topology/`, {
         'ip': '192.168.10.254',
-        'name': 'R1',
+        'name': routerName,
         'admin': 'cisco',
         'adminPass': 'cisco',
       });
@@ -182,7 +182,19 @@ export async function getLogs() {
     return response.data;
 }
 
-export async function getSNMPData() {
-    const response = await axios.post(`${process.env.REACT_APP_API}SNMP/`);
+export async function getSNMPData(ip) {
+    const response = await axios.post(`${process.env.REACT_APP_API}SNMP/`, {
+        ip: ip,
+    });
+    return response.data;
+}
+
+export async function updateSNMPData(ip, host, location, contact) {
+    const response = await axios.put(`${process.env.REACT_APP_API}SNMP/`, {
+        ip,
+        host,
+        location, 
+        contact,
+    });
     return response.data;
 }

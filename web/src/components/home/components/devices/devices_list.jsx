@@ -5,7 +5,7 @@ function DevicesList(props) {
     <ul>
       {props.ips.map((ip, index) => {
         return <li>
-        <DeviceItem id={index} name={props.names[index]} ip={ip} />
+        <DeviceItem id={index} name={props.names[index]} ip={ip} key={"device"+index}/>
       </li>
       })}
     </ul>

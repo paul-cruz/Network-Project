@@ -23,7 +23,7 @@ function DeviceItem(props) {
     actRSA(configureRSA).then(() => {
       setIsEnabledRSA(true);
       setIsCallingAPI(false);
-      insertLog('Miguel', 'Activó RSA en el router: ' + props.name);
+      insertLog(localStorage.getItem('username'), 'Activó RSA en el router: ' + props.name);
     });
   };
 
@@ -46,7 +46,7 @@ function DeviceItem(props) {
         <p>ip: {props.ip}</p>
       </Row>
     </div>
-    <DeviceDataModal show={showModal} on_hide={() => setShowModal(false)} />
+    <DeviceDataModal show={showModal} on_hide={() => setShowModal(false)} ip={props.ip} name={props.name}/>
     </>
 
   );

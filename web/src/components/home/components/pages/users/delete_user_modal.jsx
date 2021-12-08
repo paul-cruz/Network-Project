@@ -19,7 +19,7 @@ function DeleteUserModal(props) {
     console.log(req);
     deleteDeviceUser(req).then((res) => {
       console.log(res);
-      insertLog('Miguel', 'Eliminó a un usuario de los dispositivos');
+      insertLog(localStorage.getItem('username'), 'Eliminó a un usuario de los dispositivos');
     });
     props.on_hide();
   };

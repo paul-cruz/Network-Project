@@ -1,6 +1,28 @@
 from pysnmp import hlapi
+from pysnmp.hlapi import *
+import os
+import napalm
 
-class SNMPController():
+class SNMPController:
+    def prepareDevice(self, ip: str, user: str, password: str):
+        driver = napalm.get_network_driver('ios')
+        optional_args = {}
+        optional_args['dest_file_system'] = 'nvram:'
+        optional_args['fast_cli'] = False
+        try:
+            device = driver(hostname=ip, username=user, password=password, optional_args=optional_args)
+        except:
+            print("No SSH Supported trying with telnet...")
+
+        optional_args['transport'] = 'telnet'
+        try:
+            device = driver(hostname=ip, username=user, password=password, optional_args=optional_args)
+        except:
+            print("No SSH and no telnet support...")
+        device.open()
+        print("Opening %s..."%ip)
+        return device
+
     def get(self, target, oids, credentials, port=161, engine=hlapi.SnmpEngine(), context=hlapi.ContextData()):
         handler = hlapi.getCmd(
             engine,
@@ -59,17 +81,26 @@ class SNMPController():
                 pass
         return value
 
-    def set(target, value_pairs, credentials, port=161, engine=hlapi.SnmpEngine(), context=hlapi.ContextData()):
-        handler = hlapi.setCmd(
-            engine,
-            credentials,
-            hlapi.UdpTransportTarget((target, port)),
-            context,
-            *self.construct_value_pairs(value_pairs)
-        )
-        return self.fetch(handler, 1)[0]
-
-    def construct_value_pairs(list_of_pairs):
+    def set(self, target, value_pairs, credentials, port=161, engine=hlapi.SnmpEngine(), context=hlapi.ContextData()):
+        try:
+            device = self.prepareDevice(target, 'cisco', 'cisco')
+            device.load_merge_candidate(config = "host %s"%(value_pairs['1.3.6.1.2.1.1.5.0']))
+            device.commit_config()
+            device.close()
+            handler = hlapi.setCmd(
+                engine,
+                credentials,
+                hlapi.UdpTransportTarget((target, port)),
+                context,
+                *self.construct_value_pairs(value_pairs)
+            )
+            return self.fetch(handler, 1)[0]
+        except Exception as e:
+            print("Error!!!")
+            print(e)
+            return False, {"response": "Error: %s"%e}
+        
+    def construct_value_pairs(self, list_of_pairs):
         pairs = []
         for key, value in list_of_pairs.items():
             pairs.append(hlapi.ObjectType(hlapi.ObjectIdentity(key), value))
@@ -85,4 +116,6 @@ class SNMPController():
         print("{0}={1}".format(k, v))
     print('')
 """
-#snmpController.set('192.168.10.254', {'1.3.6.1.2.1.1.5.0': 'SNMPHost'},  hlapi.UsmUserData('cisco', authKey='ciscocisco', privKey='ciscocisco', authProtocol=hlapi.usmHMACSHAAuthProtocol, privProtocol=hlapi.usmDESPrivProtocol))
+#snmpController.newSet('192.168.10.254')
+#snmpController.set('192.168.10.254', {'1.3.6.1.2.1.1.5.0': 'SNMPHost', '1.3.6.1.2.1.1.6.0': 'new location', '1.3.6.1.2.1.1.4.0': 'New contact'}, hlapi.UsmUserData('cisco', authKey='ciscocisco', privKey='ciscocisco', authProtocol=hlapi.usmHMACSHAAuthProtocol, privProtocol=hlapi.usmDESPrivProtocol))
+

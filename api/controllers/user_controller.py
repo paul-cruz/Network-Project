@@ -3,12 +3,8 @@ import napalm
 from controllers.main_controller import DeviceController
 
 class UserController(DeviceController):
-  def __init__(self) -> None:
-    #self.ips, self.visited, _ = self.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')
-    pass
-
   def createUser(self, ip:str, user: str, password: str, newUser: str, newPassword: str):
-    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, self.visited, _ = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         print(deviceIp)
@@ -23,7 +19,7 @@ class UserController(DeviceController):
     return True, {"response": "User %s has been inserted"%newUser}
 
   def updateUser(self, ip: str, user: str, password: str, newPassword: str):
-    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, self.visited, _ = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)
@@ -36,7 +32,7 @@ class UserController(DeviceController):
     return True, {"response": "Password of user %s has been updated"%user}
 
   def deleteUser(self, ip: str, user: str, password: str):
-    success, self.ips, self.visited = self.getTopology(ip, 'R1', user, password)
+    success, self.ips, self.visited, _ = self.getTopology(ip, 'R1', user, password)
     try:
       for deviceIp in self.ips:
         device = self.prepareDevice(deviceIp, user, password)

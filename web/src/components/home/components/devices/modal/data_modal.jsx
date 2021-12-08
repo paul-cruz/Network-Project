@@ -5,24 +5,29 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
-import { getSNMPData } from '../../../../../utils/functions';
+import { getSNMPData, updateSNMPData, insertLog } from '../../../../../utils/functions';
 
 function DeviceDataModal(props) {
   const [host, setHost] = useState('');  
   const [responsable, setResponsable] = useState('');  
   const [location, setLocation] = useState('');  
   const [contact, setContact] = useState('');  
+  const hostRef = useRef();
+  const responsableRef = useRef();
+  const locationRef = useRef();
+  const contactRef = useRef();
 
   useEffect(() => {
-    getSNMPData().then(response => {
-      console.log(response);
-      response = response['msg'];
-      console.log(response['1.3.6.1.2.1.1.5.0']);
-      setHost(response['1.3.6.1.2.1.1.5.0']);
-      setResponsable(response['1.3.6.1.2.1.1.1.0']);
-      setLocation(response['1.3.6.1.2.1.1.6.0']);
-      setContact(response['1.3.6.1.2.1.1.4.0']);
-    });
+    if(props.show){
+      console.log("calling snmp on " +props.ip);
+      getSNMPData(props.ip).then(response => {
+        response = response['msg'];
+        setHost(response['1.3.6.1.2.1.1.5.0']);
+        setResponsable(response['1.3.6.1.2.1.1.1.0']);
+        setLocation(response['1.3.6.1.2.1.1.6.0']);
+        setContact(response['1.3.6.1.2.1.1.4.0']);
+      });
+    }
   }, [props.show]);
 
   const onCancel = () => {
@@ -30,7 +35,10 @@ function DeviceDataModal(props) {
   };
 
   const saveData = () => {
-
+    updateSNMPData(props.ip, hostRef.current.value, locationRef.current.value, contactRef.current.value).then((response) => {
+      props.on_hide();
+      insertLog(localStorage.getItem('username'), 'Actualizó los datos de el dispositivo '+ props.name + ' vía SNMP');
+    });
   };
 
     return <Modal show={props.show} size="md" onHide={props.on_hide}>
@@ -47,7 +55,9 @@ function DeviceDataModal(props) {
             <Form.Control
               type="text"
               value={host}
+              onChange={(v) => setHost(v.target.value)}
               placeholder="Host..."
+              ref={hostRef}
             />
           </Form.Group>
         </Row>
@@ -60,6 +70,8 @@ function DeviceDataModal(props) {
               type="text"
               value={location}
               placeholder="Location..."
+              onChange={(v) => setLocation(v.target.value)}
+              ref={locationRef}
             />
           </Form.Group>
         </Row>
@@ -72,6 +84,8 @@ function DeviceDataModal(props) {
               type="text"
               value={contact}
               placeholder="Contact..."
+              onChange={(v) => setContact(v.target.value)}
+              ref={contactRef}
             />
           </Form.Group>
         </Row>
@@ -84,6 +98,8 @@ function DeviceDataModal(props) {
               type="text"
               value={responsable}
               placeholder="Responsable..."
+              onChange={(v) => setResponsable(v.target.value)}
+              ref={responsableRef}
             />
           </Form.Group>
         </Row>

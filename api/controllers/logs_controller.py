@@ -10,10 +10,6 @@ db = myclient[os.getenv("DB_NAME")]
 logs_col = db["logs"]
 
 class LogsController:
-  def __init__(self) -> None:
-    #self.ips, self.visited, _ = self.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco')
-    pass
-    
   def addLog(self, user: str, action: str):
     try:
       now = datetime.now()

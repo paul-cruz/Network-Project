@@ -21,7 +21,7 @@ function UserModal(props) {
     console.log(req);
     updateDeviceUser(req).then((res) => {
       console.log(res);
-      insertLog('Miguel', 'Actualizó la contraseña de un usuario en los dispositivos');
+      insertLog(localStorage.getItem('username'), 'Actualizó la contraseña de un usuario en los dispositivos');
     });
     props.on_hide();
   };
