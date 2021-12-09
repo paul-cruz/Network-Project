@@ -3,7 +3,6 @@ import json
 import time
 import traceback
 from pysnmp import hlapi
-#from snmp_controller import SNMPController
 
 class DeviceController:
   def prepareDevice(self, ip: str, user: str, password: str):
@@ -32,6 +31,7 @@ class DeviceController:
       arpTable = device.get_arp_table()
       for register in arpTable:
         if register["age"] != -1.0:
+          print(register['ip'])
           splittedIp = register["ip"].split(".")
           splittedIp[-1] = "0"
           networkIp = ".".join(splittedIp)
@@ -159,7 +159,8 @@ class DeviceController:
 
   def getTopology(self, ip, name, user, password):
     from controllers.snmp_controller import SNMPController
-    
+    #from snmp_controller import SNMPController
+
     snmp_controll = SNMPController()
     host = snmp_controll.get(ip, ['1.3.6.1.2.1.1.5.0'], hlapi.UsmUserData('cisco', authKey='ciscocisco', privKey='ciscocisco', authProtocol=hlapi.usmHMACSHAAuthProtocol, privProtocol=hlapi.usmDESPrivProtocol))
     name = host['1.3.6.1.2.1.1.5.0'].split(".")[0]
@@ -176,7 +177,7 @@ class DeviceController:
           curName = currentName.pop(0)
           graphData[curName] = []
           for index2, ip2 in enumerate(ips):
-            graphData[curName].append({names[index2]: ip2})
+            graphData[curName].append(names[index2])
         for index, name in enumerate(names):
           if name not in visited:
             next.append(ips[index])
@@ -193,3 +194,4 @@ class DeviceController:
 #mainController =  DeviceController()
 #mainController.insertRoutingInAllDevices("192.168.10.254", 'cisco', 'cisco')
 #print(mainController.getTopology('192.168.10.254', 'R1', 'cisco', 'cisco'))
+#print(mainController.getNetworkIds('192.168.10.254', 'cisco', 'cisco'))

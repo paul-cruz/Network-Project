@@ -32,14 +32,14 @@ function Logs(props) {
 
   return (
     <div className={classes.container}>
-      {logs.map((log) => {
+      {logs.length > 0 && logs.map((log, index) => {
         return (
-          <>
-            <span>
-              <pre className={classes.line}>{buildRegister(log)}</pre>
+          <div key={'1223' + index}>
+            <span key={'12' + index}>
+              <pre className={classes.line} key={index}>{buildRegister(log)}</pre>
             </span>
             <br />
-          </>
+          </div>
         );
       })}
     </div>

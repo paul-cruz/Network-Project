@@ -15,6 +15,8 @@ class RSAController(DeviceController):
           ip ssh time-out 30\n
           ip ssh authentication-retries 5\n
           line vty 0 15\n
+          password cisco
+          login local
           transport input ssh telnet\n
       """
       device.load_merge_candidate(config = commands)

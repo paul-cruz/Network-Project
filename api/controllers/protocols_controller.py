@@ -1,5 +1,6 @@
 import napalm
 from controllers.main_controller import DeviceController
+#from main_controller import DeviceController
 import time
 import traceback
 
@@ -8,14 +9,16 @@ class ProtocolsController(DeviceController):
     try:
       device = self.prepareDevice(deviceIp, user, password)
       if protocolToActivate == "RIP":
-        commands = "no router ospf 1\nno router eigrp 1\n"
+        commands = "no router ospf 1\nno router eigrp 12\n"
       elif protocolToActivate == "OSPF":
-        commands = "no router rip\nno router eigrp 1\n"
+        commands = "no router rip\nno router eigrp 12\n"
       else:
         commands = "no router ospf 1\nno router rip\n"
       device.load_merge_candidate(config=commands)
       device.commit_config()
+      print("deleted protocols in "+deviceIp)
       device.close()
+
     except Exception as e:
       print(e)
       print(traceback.format_exc())
@@ -26,16 +29,12 @@ class ProtocolsController(DeviceController):
       for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
-        router ospf 1
-        distance 110
-        exit
-        router EIGRP 1
-        distance 100
-        exit
         router rip
-        distance 80
         version 2
         no auto-summary
+        redistribute ospf 1 metric 12
+        redistribute eigrp 12 metric 10
+
         """
         for network in networks:
           commands += "network %s\n"%network
@@ -43,8 +42,9 @@ class ProtocolsController(DeviceController):
         device.load_merge_candidate(config=commands)
         device.commit_config()
         device.close()
+        time.sleep(50)
 
-      time.sleep(50)
+      time.sleep(120)
       for deviceIp in self.ips:
         self.deactivateProtocols("RIP", deviceIp, user, password)
 
@@ -61,15 +61,10 @@ class ProtocolsController(DeviceController):
       for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
-        router EIGRP 1
-        distance 100
-        exit
-        router RIP
-        distance 120
-        exit
         router ospf 1
-        distance 90
         redistribute rip subnets
+        redistribute eigrp 12
+
         """
         for network in networks:
           commands += "network %s %s area %s\n"%(network, wildcard, area)
@@ -77,8 +72,8 @@ class ProtocolsController(DeviceController):
         device.load_merge_candidate(config=commands)
         device.commit_config()
         device.close()
-
-      time.sleep(80)
+        time.sleep(50)
+      time.sleep(120)
 
       for deviceIp in self.ips:
         self.deactivateProtocols("OSPF", deviceIp, user, password)
@@ -94,15 +89,11 @@ class ProtocolsController(DeviceController):
       for deviceIp in self.ips:
         networks, device = self.getNetworkIds(deviceIp, user, password)
         commands = """
-        router RIP 
-        distance 120
-        exit
-        router OSPF 1
-        distance 110
-        exit
-        router EIGRP 1
-        distance 80
-        
+        router EIGRP 12
+        no auto-summary
+        redistribute rip metric 1500 100 255 1 1500
+        redistribute ospf 1 metric 1 1 1 1 1
+
         """
         for network in networks:
           commands += "network %s\n"%network
@@ -110,8 +101,8 @@ class ProtocolsController(DeviceController):
         device.load_merge_candidate(config=commands)
         device.commit_config()
         device.close()
-
-      time.sleep(80)
+        time.sleep(50)
+      time.sleep(120)
       
       for deviceIp in self.ips:
         self.deactivateProtocols("EIGRP", deviceIp, user, password)

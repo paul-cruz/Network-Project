@@ -15,24 +15,26 @@ import {
 
 function Topology() {
   const [isRunningCommand, setIsRunningCommand] = useState(false);
-  const [updateTime, setUpdateTime] = useState(10);
+  const [updateTime, setUpdateTime] = useState(100);
   const [dataForGraph, setDataForGraph] = useState(null); 
   const protocolRef = useRef();
 
   useEffect(() => {
-    getTopology().then((data) => {
-      console.log(data);
-      setDataForGraph(data);
-      localStorage.setItem('routers', data['ips'].length);
-    });
-    const interval = setInterval(() => {
+    let interval = 0;
+    if(!isRunningCommand){
       getTopology().then((data) => {
         console.log(data);
         setDataForGraph(data);
         localStorage.setItem('routers', data['ips'].length);
       });
-    }, updateTime * 1000);
-
+      interval = setInterval(() => {
+        getTopology().then((data) => {
+          console.log(data);
+          setDataForGraph(data);
+          localStorage.setItem('routers', data['ips'].length);
+        });
+      }, updateTime * 1000);
+    }
     return () => clearInterval(interval);
   }, [updateTime]);
 
