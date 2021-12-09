@@ -28,7 +28,7 @@ function DeviceDataModal(props) {
         setContact(response['1.3.6.1.2.1.1.4.0']);
       });
     }
-  }, [props.show]);
+  }, [props.show, props.ip]);
 
   const onCancel = () => {
     props.on_hide();

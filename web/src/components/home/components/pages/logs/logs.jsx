@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
 
 import { getLogs } from '../../../../../utils/functions';
 import classes from "./logs.module.css";
