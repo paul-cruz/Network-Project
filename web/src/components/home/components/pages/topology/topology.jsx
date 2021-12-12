@@ -5,8 +5,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {getTopology} from "./functions/functions";
 import OSPFModal from "./modal/ospf_modal";
+import { getTopology } from "./functions/functions";
+import TopologyGraph from '../../../../topology_graph';
 
 import {
   configureEIGRP,
@@ -16,10 +17,34 @@ import {
 
 function Topology() {
   const [isRunningCommand, setIsRunningCommand] = useState(false);
-  const [updateTime, setUpdateTime] = useState(100);
-  const [dataForGraph, setDataForGraph] = useState(null);
   const [showOSPFModal, setShowOSPFModal] = useState(false); 
+  const [updateTime, setUpdateTime] = useState(10);
+  const [dataForGraph, setDataForGraph] = useState(null);
+  const [graphNodes, setGraphNodes] = useState([]);
+  const [graphEdges, setGraphEdges] = useState([]);
   const protocolRef = useRef();
+
+  const drawTopologyGraph = () => {
+    if (!dataForGraph) {
+      return;
+    }
+    let nodes = [];
+    let edgesAux = {};
+    let edges = [];
+
+    Object.keys(dataForGraph).forEach((node, index) => {
+      nodes.push({ id: index, label: node });
+      edgesAux[node] = index;
+    })
+
+    Object.entries(dataForGraph).forEach(([node, neighbors]) => {
+      neighbors.forEach(neighbor => {
+        edges.push({ from: edgesAux[node], to: edgesAux[neighbor] })
+      })
+    })
+    setGraphNodes(nodes);
+    setGraphEdges(edges);
+  }
 
   useEffect(() => {
     let interval = 0;
@@ -28,6 +53,7 @@ function Topology() {
         console.log(data);
         setDataForGraph(data);
         localStorage.setItem('routers', data['ips'].length);
+        drawTopologyGraph();
       });
       interval = setInterval(() => {
         getTopology().then((data) => {
@@ -113,7 +139,7 @@ function Topology() {
             </Button>
           </Col>
         </Row>
-        {dataForGraph === null ? <p>Loading...</p> : null}
+        {dataForGraph === null ? <p>Loading...</p> : <TopologyGraph nodes={graphNodes} edges={graphEdges} />}
       </Container>
       <OSPFModal show={showOSPFModal} on_hide={() => setShowOSPFModal(false)} set_is_running={setIsRunningCommand}/>
     </>
