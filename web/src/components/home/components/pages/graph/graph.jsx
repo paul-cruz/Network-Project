@@ -10,22 +10,22 @@ import {
 } from "recharts";
 import classes from "./graph.module.css";
 
-const data = [
-  {
-    name: "Número de dispositivos",
-    valor: localStorage.getItem('routers') || 0,
-  },
-  {
-    name: "Paquetes enviados x día",
-    valor: 10,
-  },
-  {
-    name: "Paquetes perdidos x día",
-    valor: 3,
-  },
-];
-
 const Graph = () => {
+  const data = [
+    {
+      name: "Número de dispositivos",
+      valor: localStorage.getItem('routers') || 0,
+    },
+    {
+      name: "Número de usuarios",
+      valor: localStorage.getItem('totalUsers') || 0,
+    },
+    {
+      name: "Dispositivos con conexión segura",
+      valor: localStorage.getItem('secure') || 0,
+    },
+  ];
+
   return (
     <>
       <Container>

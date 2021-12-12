@@ -198,3 +198,16 @@ export async function updateSNMPData(ip, host, location, contact) {
     });
     return response.data;
 }
+
+
+export async function getInterfaceCounters(ip, ip2, interface1, interface2) {
+    const response = await axios.post(`${process.env.REACT_APP_API}packages/`, {
+        ip,
+        ip2,
+        'interface': interface1, 
+        interface2,
+        'admin': 'cisco',
+        'adminPass': 'cisco',
+    });
+    return response.data;
+}

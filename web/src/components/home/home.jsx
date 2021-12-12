@@ -5,13 +5,13 @@ import Graph from "./components/pages/graph/graph";
 import Logs from "./components/pages/logs/logs";
 import Topology from "./components/pages/topology/topology";
 import Users from "./components/pages/users/users";
+import Packages from "./components/pages/packages/packages";
 
 function Home() {
   const [pageIndex, setPageIndex] = useState(0);
-  const pages = [<Topology />, <Users />, <Logs pageIndex ={pageIndex}/>, <Graph />];
+  const pages = [<Topology />, <Users />, <Logs pageIndex ={pageIndex}/>, <Graph />, <Packages />];
 
   const getPage = () => {
-    console.log(pageIndex);
     return pages[pageIndex];
   };
 

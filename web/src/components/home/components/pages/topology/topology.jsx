@@ -81,7 +81,7 @@ function Topology() {
     <>
       <Container className="mt-3 mb-3">
         <Row>
-          <Col className="col-md-3">
+          <Col className="col-md-2">
             <h3>Topología detectada</h3>
           </Col>
           <Col className="col-md-2">Actualización de toplogía (segundos)</Col>
@@ -96,7 +96,7 @@ function Topology() {
             </Form.Group>
           </Col>
           <Col className="col-md-2">Tipo de enrutamiento: </Col>
-          <Col className="col-md-1">
+          <Col className="col-md-2">
             <Form.Select aria-label="Default select example" ref={protocolRef}>
               <option value="rip">RIP</option>
               <option value="ospf">OSPF</option>

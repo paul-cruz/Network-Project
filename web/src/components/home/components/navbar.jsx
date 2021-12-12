@@ -49,7 +49,10 @@ function NavBar(props) {
               <Nav.Link href="#logs">Logs</Nav.Link>
             </div>
             <div onClick={() => setPageIndex(3)}>
-              <Nav.Link href="#graphs">Gráficas</Nav.Link>
+              <Nav.Link href="#graphs">Gráfica</Nav.Link>
+            </div>
+            <div onClick={() => setPageIndex(4)}>
+              <Nav.Link href="#packages">Paquetes</Nav.Link>
             </div>
           </Nav>
           <div>

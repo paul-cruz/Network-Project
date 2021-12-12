@@ -21,8 +21,7 @@ function Logs(props) {
   const buildRegister = (log) => {
     const nameSpaces = " ".repeat(10 - log.user.length);
     const dateSpaces = " ".repeat(1);
-    const actionSpaces = " ".repeat(70 - log.action.length);
-    return `> ${log.user}${nameSpaces} | ${log.date}${dateSpaces} | ${log.action}${actionSpaces}`;
+    return `> ${log.user}${nameSpaces} | ${log.date}${dateSpaces} | ${log.action}`;
   };
 
   if (!logs) {

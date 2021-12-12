@@ -26,6 +26,7 @@ function DeviceItem(props) {
       setIsEnabledRSA(true);
       setIsCallingAPI(false);
       localStorage.setItem(props.name, 1);
+      localStorage.setItem('secure', isNaN(parseInt(localStorage.getItem('secure')) + 1) ? 1 : parseInt(localStorage.getItem('secure')) + 1);
       insertLog(localStorage.getItem('username'), 'Activó RSA en el router: ' + props.name);
     });
   };

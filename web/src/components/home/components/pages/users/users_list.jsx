@@ -9,6 +9,8 @@ function UsersList() {
   useEffect(() => {
     getDeviceUsers().then((users) => {
       setDeviceUsers(users);
+      console.log(users.length);
+      localStorage.setItem('totalUsers', users.length);
     });
   }, []);
 

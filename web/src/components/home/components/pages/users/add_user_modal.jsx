@@ -19,9 +19,7 @@ function UserModal(props) {
       "username": usernameRef.current.value,
       "password": passwordRef.current.value,
     };
-    console.log(req);
     registerDeviceUser(req).then((res) => {
-      console.log(res);
       alert('Se ha añadido un usuario a todos los dispositivos');
       insertLog(localStorage.getItem('username'), 'Añadió a ' + req['username'] + ' a los dispositivos');
     });
