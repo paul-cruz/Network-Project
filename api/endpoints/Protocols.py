@@ -1,6 +1,6 @@
 import os
 from controllers.protocols_controller import ProtocolsController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 
 protocols_controller = ProtocolsController()
 

@@ -1,6 +1,6 @@
 import os
 from controllers.packages_controller import PackagesController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 
 packages_controller = PackagesController()
 

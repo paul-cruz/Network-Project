@@ -1,6 +1,6 @@
 import os
 from controllers.RSA_controller import RSAController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 
 RSA_controller = RSAController()
 

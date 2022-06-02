@@ -1,5 +1,5 @@
 from controllers.main_controller import DeviceController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 import traceback
 
 device_controller = DeviceController()

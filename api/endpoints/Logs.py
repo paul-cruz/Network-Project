@@ -1,6 +1,6 @@
 import os
 from controllers.logs_controller import LogsController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 
 logs_controller = LogsController()
 

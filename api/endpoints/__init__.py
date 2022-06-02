@@ -1,4 +1,4 @@
-from flask_restplus import Api
+from flask_restx import Api
 from .AppUser import api as nsAppUser
 from .DeviceUser import api as nsDeviceUser
 from .Protocols import api as nsProtocol

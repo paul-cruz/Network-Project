@@ -1,6 +1,6 @@
 import os
 from controllers.snmp_controller import SNMPController
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 from pysnmp import hlapi
 
 snmp_controller = SNMPController()

@@ -2,7 +2,7 @@ import os
 import pymongo
 from Crypto.Hash import SHA256
 from pymongo.collection import ReturnDocument
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 
 myclient = pymongo.MongoClient(os.getenv("DB_CONN"))
 db = myclient[os.getenv("DB_NAME")]
