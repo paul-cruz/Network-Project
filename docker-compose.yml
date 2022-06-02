@@ -30,28 +30,27 @@ services:
       - "27017:27017"
     networks:
       - project-network
-      
+
   web-service:
-        build:
-            context: ./web/
-            dockerfile: Dockerfile
-        environment:
-            - CHOKIDAR_USEPOLLING=true
-        image: project-client
-        container_name: project-web-client
-        stdin_open: true
-        command: npm start
-        volumes:
-        - ./web/:/usr/app
-        - /usr/app/node_modules
-        depends_on:
-        - api-service
-        ports:
-        - "3000:3000"
-        networks:
-        - project-network
-        environment: 
-            REACT_APP_API: http://localhost:5000/api/
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    image: project-client
+    container_name: project-web-client
+    stdin_open: true
+    command: npm start
+    volumes:
+      - ./web/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - api-service
+    ports:
+      - "3000:3000"
+    networks:
+      - project-network
+    environment:
+      REACT_APP_API: http://localhost:5000/api/
+      CHOKIDAR_USEPOLLING: true
 
 networks:
   project-network:
